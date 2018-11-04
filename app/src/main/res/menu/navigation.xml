@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_async"
+        android:icon="@android:drawable/ic_menu_rotate"
+        android:title="@string/title_async" />
+
+    <item
+        android:id="@+id/navigation_diff"
+        android:icon="@android:drawable/arrow_up_float"
+        android:title="@string/title_diff" />
+
+    <item
+        android:id="@+id/navigation_objects"
+        android:icon="@android:drawable/arrow_down_float"
+        android:title="@string/title_objects" />
+
+    <item
+        android:id="@+id/navigation_compressed"
+        android:icon="@android:drawable/btn_star"
+        android:title="@string/title_compressed" />
+
+</menu>

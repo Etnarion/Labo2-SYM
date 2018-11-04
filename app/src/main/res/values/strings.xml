@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Lab2</string>
+    <string name="title_async">Async</string>
+    <string name="title_diff">Differed</string>
+    <string name="title_objects">Objects</string>
+    <string name="title_compressed">Compressed</string>
+    <string name="button_text">Send</string>
+    <string name="hint_async">Enter your request</string>
+</resources>
