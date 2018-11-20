@@ -18,6 +18,8 @@ android {
     }
 }
 
+configurations.all {exclude group: 'com.android.support', module: 'support-v13'}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:28.0.0'
@@ -27,4 +29,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    compile 'com.google.code.gson:gson:2.7'
+    compile ('com.thoughtworks.xstream:xstream:1.4.9') {
+        exclude group: 'xmlpull', module: 'xmlpull'
+    }
+
+
 }

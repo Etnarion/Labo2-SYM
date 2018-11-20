@@ -6,4 +6,22 @@
     <string name="title_compressed">Compressed</string>
     <string name="button_text">Send</string>
     <string name="hint_async">Enter your request</string>
+    <string name="radioJson">JSON</string>
+    <string name="radioXML">XML</string>
+    <string name="welcomeAsync">
+        Type any text and press send. The same text will be sent back with server informations.
+    </string>
+    <string name="welcomeDiff">
+        Try to turn off the network, type some text several times then press send.
+        Every requests will be sent as soon as you turn your network back on.
+    </string>
+    <string name="welcomeObj">
+        Choose between JSON and XML then press send. Java Person class instances will be serialized
+        with your chosen file format, sent back by the server, deserialized then displayed as java objects.
+    </string>
+    <string name="welcomeComp">
+
+    </string>
+    <string name="graphQL">GraphQL</string>
+    <string name="fetchQL">Fetch data</string>
 </resources>

@@ -2,7 +2,9 @@ package com.example.samuel.lab2;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.util.Pair;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -12,18 +14,39 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Timer;
 
 public class AsyncSendRequest {
     private Context context;
-    CommunicationEventListener communicationEventListener;
+    private CommunicationEventListener communicationEventListener;
+    private ArrayList<Pair<String, String>> pendingRequests;
+    Timer timer = null;
 
     public AsyncSendRequest(Context context) {
         this.context = context;
+        pendingRequests = new ArrayList<>();
     }
 
-    public void sendRequest(String request, String url) throws Exception {
-        AsyncRequest asyncRequest = new AsyncRequest();
-        asyncRequest.execute(url, request);
+    public void sendRequest(String request, String url, SendMethods method, String type) {
+        if (NetworkUtils.isNetworkAvailable(context)) {
+            AsyncRequest asyncRequest = new AsyncRequest();
+            asyncRequest.execute(url, request, type);
+        } else if (method == SendMethods.DIFFERED) {
+            pendingRequests.add(new Pair<>(request, url));
+            if (timer == null) {
+                timer = new Timer();
+                final int MILLISECONDS = 5000; //5 seconds
+                timer.schedule(new NetworkChecker(this.context, this), 0, MILLISECONDS);
+            }
+        }
+    }
+
+    public void sendPendingRequests() {
+        for (Pair<String, String> request : pendingRequests) {
+            sendRequest(request.first, request.second, SendMethods.DIFFERED, "text/plain");
+        }
+        pendingRequests.clear();
     }
 
     public void setCommunicationEventListener(CommunicationEventListener l) {
@@ -41,14 +64,16 @@ public class AsyncSendRequest {
         protected String doInBackground(String... strings) {
             String urlString = strings[0];
             String data = strings[1];
+            String contentType = strings[2];
             OutputStream out;
             StringBuilder response = new StringBuilder();
 
             try {
                 URL url = new URL(urlString);
+
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("POST");
-                urlConnection.setRequestProperty("Content-Type", "text/plain");
+                urlConnection.setRequestProperty("Content-Type", contentType);
                 out = new BufferedOutputStream(urlConnection.getOutputStream());
 
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
