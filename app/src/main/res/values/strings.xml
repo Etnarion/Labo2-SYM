@@ -3,6 +3,7 @@
     <string name="title_async">Async</string>
     <string name="title_diff">Differed</string>
     <string name="title_objects">Objects</string>
+    <string name="title_graphql">GraphQL</string>
     <string name="title_compressed">Compressed</string>
     <string name="button_text">Send</string>
     <string name="hint_async">Enter your request</string>
@@ -21,6 +22,9 @@
     </string>
     <string name="welcomeComp">
 
+    </string>
+    <string name="welcomeGraphql">
+        Push the fetch button to show a list of authors. You can then click on an author to see his posts.
     </string>
     <string name="graphQL">GraphQL</string>
     <string name="fetchQL">Fetch data</string>

@@ -4,5 +4,6 @@ public enum SendMethods {
     ASYNC,
     DIFFERED,
     OBJECTS,
-    COMPRESSED
+    COMPRESSED,
+    GRAPHQL
 }

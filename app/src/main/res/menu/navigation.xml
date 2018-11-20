@@ -20,5 +20,9 @@
         android:id="@+id/navigation_compressed"
         android:icon="@android:drawable/btn_star"
         android:title="@string/title_compressed" />
+    <item
+        android:id="@+id/navigation_graphql"
+        android:icon="@android:drawable/btn_plus"
+        android:title="@string/title_graphql" />
 
 </menu>

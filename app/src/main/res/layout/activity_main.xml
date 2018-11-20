@@ -22,14 +22,6 @@
             android:text="@string/radioXML"/>
     </RadioGroup>
 
-    <Button
-        android:id="@+id/sendGraphQL"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/graphQL"
-        app:layout_constraintLeft_toRightOf="@+id/sendAsync"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroupSer"/>
-
     <EditText
         android:id="@+id/requestAsync"
         android:hint="@string/hint_async"
@@ -44,7 +36,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_text"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroupSer"/>
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupSer"
+        app:layout_constraintLeft_toRightOf="@id/requestAsync"/>
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/responseText"
