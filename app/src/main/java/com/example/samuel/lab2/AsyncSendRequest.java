@@ -4,11 +4,15 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.util.Base64;
 import android.util.Pair;
+
+import org.apache.commons.codec.binary.Hex;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -16,6 +20,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Timer;
+import java.util.zip.Deflater;
+import java.util.zip.DeflaterOutputStream;
+import java.util.zip.GZIPOutputStream;
 
 public class AsyncSendRequest {
     private Context context;
@@ -28,10 +35,10 @@ public class AsyncSendRequest {
         pendingRequests = new ArrayList<>();
     }
 
-    public void sendRequest(String request, String url, SendMethods method, String type) {
+    public void sendRequest(String request, String url, SendMethods method, String type, String compressed) {
         if (NetworkUtils.isNetworkAvailable(context)) {
             AsyncRequest asyncRequest = new AsyncRequest();
-            asyncRequest.execute(url, request, type);
+            asyncRequest.execute(url, request, type, compressed);
         } else if (method == SendMethods.DIFFERED) {
             pendingRequests.add(new Pair<>(request, url));
             if (timer == null) {
@@ -44,7 +51,7 @@ public class AsyncSendRequest {
 
     public void sendPendingRequests() {
         for (Pair<String, String> request : pendingRequests) {
-            sendRequest(request.first, request.second, SendMethods.DIFFERED, "text/plain");
+            sendRequest(request.first, request.second, SendMethods.DIFFERED, "text/plain", null);
         }
         pendingRequests.clear();
     }
@@ -65,6 +72,7 @@ public class AsyncSendRequest {
             String urlString = strings[0];
             String data = strings[1];
             String contentType = strings[2];
+
             OutputStream out;
             StringBuilder response = new StringBuilder();
 
@@ -74,13 +82,21 @@ public class AsyncSendRequest {
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("POST");
                 urlConnection.setRequestProperty("Content-Type", contentType);
-                out = new BufferedOutputStream(urlConnection.getOutputStream());
+                if (strings[3] != null) {
+                    urlConnection.setRequestProperty("X-Network", "CSD");
+                    urlConnection.setRequestProperty("X-Content-Encoding", "deflate");
+                    OutputStream outputStream = urlConnection.getOutputStream();
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new DeflaterOutputStream(outputStream, new Deflater(Deflater.BEST_COMPRESSION, true)), "UTF-8"));
+                    writer.write(data);
+                } else {
+                    out = new BufferedOutputStream(urlConnection.getOutputStream());
 
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
-                writer.write(data);
-                writer.flush();
-                writer.close();
-                out.close();
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
+                    writer.write(data);
+                    writer.flush();
+                    writer.close();
+                    out.close();
+                }
 
                 int responseCode = urlConnection.getResponseCode();
 

@@ -6,12 +6,13 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
-import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -24,7 +25,6 @@ import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private EditText requestText;
@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton radioJson;
     private RadioButton radioXML;
     private Button sendGraphQL;
+    private Spinner spinner;
     private ListView listView;
 
     @Override
@@ -47,11 +48,13 @@ public class MainActivity extends AppCompatActivity {
         radioJson = (RadioButton) findViewById(R.id.radioJson);
         radioXML = (RadioButton) findViewById(R.id.radioXML);
         sendGraphQL = (Button) findViewById(R.id.fetch);
+        spinner = (Spinner) findViewById(R.id.spinner);
         listView = (ListView) findViewById(R.id.listView);
 
         radioJson.setVisibility(View.GONE);
         radioXML.setVisibility(View.GONE);
         sendGraphQL.setVisibility(View.GONE);
+        spinner.setVisibility(View.GONE);
         listView.setVisibility(View.GONE);
 
         responseText.setText(getResources().getString(R.string.welcomeAsync));
@@ -73,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                                 radioJson.setVisibility(View.GONE);
                                 radioXML.setVisibility(View.GONE);
                                 sendGraphQL.setVisibility(View.GONE);
+                                spinner.setVisibility(View.GONE);
                                 listView.setVisibility(View.GONE);
                                 responseText.setText(getResources().getString(R.string.welcomeAsync));
                                 setButtonListener(sendButton, SendMethods.ASYNC);
@@ -84,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                                 radioJson.setVisibility(View.GONE);
                                 radioXML.setVisibility(View.GONE);
                                 sendGraphQL.setVisibility(View.GONE);
+                                spinner.setVisibility(View.GONE);
                                 listView.setVisibility(View.GONE);
                                 responseText.setText(getResources().getString(R.string.welcomeDiff));
                                 setButtonListener(sendButton, SendMethods.DIFFERED);
@@ -95,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
                                 radioJson.setVisibility(View.VISIBLE);
                                 radioXML.setVisibility(View.VISIBLE);
                                 sendGraphQL.setVisibility(View.GONE);
+                                spinner.setVisibility(View.GONE);
                                 listView.setVisibility(View.GONE);
                                 responseText.setText(getResources().getString(R.string.welcomeObj));
                                 setButtonListener(sendButton, SendMethods.OBJECTS);
@@ -106,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                                 radioJson.setVisibility(View.GONE);
                                 radioXML.setVisibility(View.GONE);
                                 sendGraphQL.setVisibility(View.VISIBLE);
+                                spinner.setVisibility(View.VISIBLE);
                                 listView.setVisibility(View.VISIBLE);
                                 responseText.setText(getResources().getString(R.string.welcomeGraphql));
                                 setButtonListener(sendGraphQL, SendMethods.GRAPHQL);
@@ -117,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
                                 radioJson.setVisibility(View.VISIBLE);
                                 radioXML.setVisibility(View.VISIBLE);
                                 sendGraphQL.setVisibility(View.GONE);
+                                listView.setVisibility(View.GONE);
                                 responseText.setText("");
                                 setButtonListener(sendButton, SendMethods.COMPRESSED);
                                 return true;
@@ -133,11 +141,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 StringBuilder request = new StringBuilder(requestText.getText().toString());
-                String url;
+                final String url;
                 String endPoint = "";
                 String contentType = "";
+                final String compressed = method == SendMethods.COMPRESSED ? "YES" : null;
 
-                if (method == SendMethods.OBJECTS) {
+                if (method == SendMethods.OBJECTS || method == SendMethods.COMPRESSED) {
+                    if (method == SendMethods.COMPRESSED) {
+
+                    }
                     if (radioJson.isChecked()) {
                         endPoint = "rest/json";
                         contentType = "application/json";
@@ -163,8 +175,6 @@ public class MainActivity extends AppCompatActivity {
                         String xml = xstream.toXML(directory);
                         request.append(xml);
                     }
-                } else if (method == SendMethods.COMPRESSED) {
-
                 } else if (method == SendMethods.GRAPHQL) {
                     endPoint = "api/graphql";
                     contentType = "application/json";
@@ -180,6 +190,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean handleServerResponse(String response) {
                         if (method == SendMethods.OBJECTS || method == SendMethods.COMPRESSED) {
+                            if (method == SendMethods.COMPRESSED) {
+
+                            }
                             if (radioJson.isChecked()) {
                                 String json = response.substring(0, response.indexOf("}") + 1) + "}";
                                 Gson gson = new Gson();
@@ -209,17 +222,54 @@ public class MainActivity extends AppCompatActivity {
                                 Author newAuthor = new Author(id, first_name, last_name);
                                 authors.add(newAuthor);
                             }
-                            final ArrayAdapter<Author> adapter = new ArrayAdapter<>(MainActivity.this, R.layout.activity_main, authors);
-                            listView.setAdapter(adapter);
+                            ArrayAdapter<Author> adapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_dropdown_item, authors);
+                            spinner.setAdapter(adapter);
+                            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                    asyncSendRequest.setCommunicationEventListener(new CommunicationEventListener() {
+
+                                        @Override
+                                        public boolean handleServerResponse(String response) {
+                                            JsonParser jsonParser = new JsonParser();
+                                            JsonObject data = jsonParser.parse(response).getAsJsonObject();
+                                            JsonArray elements = data.getAsJsonObject("data").getAsJsonArray("allPostByAuthor");
+                                            ArrayList<Post> posts = new ArrayList<>();
+                                            for (JsonElement post : elements) {
+                                                int id = post.getAsJsonObject().get("id").getAsInt();
+                                                String title = post.getAsJsonObject().get("title").getAsString();
+                                                String description = post.getAsJsonObject().get("description").getAsString();
+                                                String content = post.getAsJsonObject().get("content").getAsString();
+                                                String date = post.getAsJsonObject().get("date").getAsString();
+                                                Post newPost = new Post(id, title, description, content, date);
+                                                posts.add(newPost);
+                                            }
+                                            ArrayAdapter<Post> postsAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1, posts);
+                                            listView.setAdapter(postsAdapter);
+
+                                            return true;
+                                        }
+                                    });
+                                    Author author = (Author) spinner.getSelectedItem();
+                                    String request = "{\"query\":\"{allPostByAuthor(authorId :" + author.getId() + "){id title description content date}}\"}";
+                                    asyncSendRequest.sendRequest(request, url, method, "application/json", compressed);
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+
+                                }
+                            });
                         } else {
                             responseText.setText(response);
+                            return true;
                         }
 
                         return false;
                     }
                 });
                 try {
-                    asyncSendRequest.sendRequest(request.toString(), url, method, contentType);
+                    asyncSendRequest.sendRequest(request.toString(), url, method, contentType, compressed);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
