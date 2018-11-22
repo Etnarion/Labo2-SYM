@@ -23,6 +23,8 @@ import java.util.Timer;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.GZIPOutputStream;
+import java.util.zip.Inflater;
+import java.util.zip.InflaterInputStream;
 
 public class AsyncSendRequest {
     private Context context;
@@ -82,6 +84,7 @@ public class AsyncSendRequest {
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("POST");
                 urlConnection.setRequestProperty("Content-Type", contentType);
+                // If request is to be compressed
                 if (strings[3] != null) {
                     urlConnection.setRequestProperty("X-Network", "CSD");
                     urlConnection.setRequestProperty("X-Content-Encoding", "deflate");
@@ -103,10 +106,19 @@ public class AsyncSendRequest {
                 int responseCode = urlConnection.getResponseCode();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    String line;
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                    while ((line = bufferedReader.readLine()) != null) {
-                        response.append(line);
+                    // If response is compressed
+                    if (strings[3] != null) {
+                        String line;
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(new InflaterInputStream(urlConnection.getInputStream(), new Inflater(true))));
+                        while ((line = reader.readLine()) != null) {
+                            response.append(line);
+                        }
+                    } else {
+                        String line;
+                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                        while ((line = bufferedReader.readLine()) != null) {
+                            response.append(line);
+                        }
                     }
                 }
             } catch (Exception e) {

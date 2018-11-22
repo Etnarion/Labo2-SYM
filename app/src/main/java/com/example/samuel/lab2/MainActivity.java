@@ -207,28 +207,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean handleServerResponse(String response) {
                         if (method == SendMethods.OBJECTS || method == SendMethods.COMPRESSED) {
-                            if (method == SendMethods.COMPRESSED) {
-                                byte[] bytes = response.getBytes();
-                                ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-                                Inflater inflater = new Inflater(true);
-                                InflaterInputStream iis = new InflaterInputStream(bais, inflater);
-                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-                                int bytesRead;
-
-                                try {
-                                    while ((bytesRead = iis.read()) != -1) {
-                                        baos.write(bytesRead);
-                                    }
-
-                                    baos.flush();
-                                    baos.close();
-
-                                    response = baos.toString();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
                             if (radioJson.isChecked()) {
                                 String json = response.substring(0, response.indexOf("}") + 1) + "}";
                                 Gson gson = new Gson();
