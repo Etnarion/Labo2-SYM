@@ -1,7 +1,9 @@
 package com.example.samuel.lab2;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -24,7 +26,21 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.zip.DataFormatException;
+import java.util.zip.Deflater;
+import java.util.zip.DeflaterOutputStream;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.Inflater;
+import java.util.zip.InflaterInputStream;
 
 public class MainActivity extends AppCompatActivity {
     private EditText requestText;
@@ -187,11 +203,31 @@ public class MainActivity extends AppCompatActivity {
                 url = "http://sym.iict.ch/" + endPoint;
 
                 asyncSendRequest.setCommunicationEventListener(new CommunicationEventListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                     @Override
                     public boolean handleServerResponse(String response) {
                         if (method == SendMethods.OBJECTS || method == SendMethods.COMPRESSED) {
                             if (method == SendMethods.COMPRESSED) {
+                                byte[] bytes = response.getBytes();
+                                ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+                                Inflater inflater = new Inflater(true);
+                                InflaterInputStream iis = new InflaterInputStream(bais, inflater);
+                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
+                                int bytesRead;
+
+                                try {
+                                    while ((bytesRead = iis.read()) != -1) {
+                                        baos.write(bytesRead);
+                                    }
+
+                                    baos.flush();
+                                    baos.close();
+
+                                    response = baos.toString();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                             }
                             if (radioJson.isChecked()) {
                                 String json = response.substring(0, response.indexOf("}") + 1) + "}";

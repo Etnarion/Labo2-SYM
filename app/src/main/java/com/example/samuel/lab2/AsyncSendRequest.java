@@ -86,8 +86,10 @@ public class AsyncSendRequest {
                     urlConnection.setRequestProperty("X-Network", "CSD");
                     urlConnection.setRequestProperty("X-Content-Encoding", "deflate");
                     OutputStream outputStream = urlConnection.getOutputStream();
-                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new DeflaterOutputStream(outputStream, new Deflater(Deflater.BEST_COMPRESSION, true)), "UTF-8"));
-                    writer.write(data);
+                    BufferedWriter writerOut = new BufferedWriter(new OutputStreamWriter(new DeflaterOutputStream(outputStream, new Deflater(Deflater.BEST_COMPRESSION, true)), "UTF-8"));
+                    writerOut.write(data);
+                    writerOut.flush();
+                    writerOut.close();
                 } else {
                     out = new BufferedOutputStream(urlConnection.getOutputStream());
 
