@@ -26,22 +26,13 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.zip.DataFormatException;
-import java.util.zip.Deflater;
-import java.util.zip.DeflaterOutputStream;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.Inflater;
-import java.util.zip.InflaterInputStream;
 
+/**
+ * Application's Main Activity class
+ *
+ * Authors: Samuel Mayor, Alexandra Korukova, Max Caduff
+ */
 public class MainActivity extends AppCompatActivity {
     private EditText requestText;
     private Button sendButton;
@@ -58,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // retrieve the UI components
         requestText = (EditText) findViewById(R.id.requestAsync);
         sendButton = (Button) findViewById(R.id.sendAsync);
         responseText = (TextView) findViewById(R.id.responseText);
@@ -152,6 +144,12 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    /**
+     * This function attributes a {@link CommunicationEventListener} to the given button.
+     *
+     * @param button to button for which we set the {@link CommunicationEventListener}
+     * @param method the method ({@link SendMethods}) we use to send the data
+     */
     private void setButtonListener(Button button, final SendMethods method) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,16 +161,14 @@ public class MainActivity extends AppCompatActivity {
                 final String compressed = method == SendMethods.COMPRESSED ? "YES" : null;
 
                 if (method == SendMethods.OBJECTS || method == SendMethods.COMPRESSED) {
-                    if (method == SendMethods.COMPRESSED) {
-
-                    }
-                    if (radioJson.isChecked()) {
+                    // set the serialization method
+                    if (radioJson.isChecked()) {  // Json
                         endPoint = "rest/json";
                         contentType = "application/json";
                         Gson gson = new Gson();
                         Person person = new Person("Denier", "Alain", "Male", new Phone("0241234123", "home"));
                         request = new StringBuilder(gson.toJson(person));
-                    } else if (radioXML.isChecked()) {
+                    } else if (radioXML.isChecked()) { // xml
                         endPoint = "rest/xml";
                         contentType = "application/xml";
                         Directory directory = new Directory();
@@ -191,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                         String xml = xstream.toXML(directory);
                         request.append(xml);
                     }
-                } else if (method == SendMethods.GRAPHQL) {
+                } else if (method == SendMethods.GRAPHQL) { // GraphQL
                     endPoint = "api/graphql";
                     contentType = "application/json";
                     request = new StringBuilder("{\"query\": \"{allAuthors{id first_name last_name}}\"}");

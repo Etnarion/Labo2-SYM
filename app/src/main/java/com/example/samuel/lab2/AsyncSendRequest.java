@@ -1,18 +1,12 @@
 package com.example.samuel.lab2;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.util.Base64;
 import android.util.Pair;
-
-import org.apache.commons.codec.binary.Hex;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -22,53 +16,100 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
-import java.util.zip.GZIPOutputStream;
 import java.util.zip.Inflater;
 import java.util.zip.InflaterInputStream;
 
+/**
+ * This class is used to send HTTP requests asynchronously and receive the responses
+ *
+ * Authors: Samuel Mayor, Alexandra Korukova, Max Caduff
+ */
 public class AsyncSendRequest {
     private Context context;
     private CommunicationEventListener communicationEventListener;
     private ArrayList<Pair<String, String>> pendingRequests;
-    Timer timer = null;
+    private Timer timer = null;
 
+    /**
+     * Constructor
+     * @param context application environment context
+     */
     public AsyncSendRequest(Context context) {
         this.context = context;
         pendingRequests = new ArrayList<>();
     }
 
-    public void sendRequest(String request, String url, SendMethods method, String type, String compressed) {
+    /**
+     * Sends the requests.
+     * If the network is available, sends it instantly (but in the background, using a
+     * {@link AsyncRequest}).
+     * If the network isn't available, stores the request in the pending requests stack.
+     * All the pending requests are sent once the network is available.
+     * @param request the request to send
+     * @param url the server's url
+     * @param method a send method ({@link SendMethods})
+     * @param type the {@link SendMethods} method used to send the request
+     * @param compressed
+     */
+    public void sendRequest(String request, String url, SendMethods method,
+                            String type, String compressed) {
+        // if the network is available, send the request in the background
         if (NetworkUtils.isNetworkAvailable(context)) {
             AsyncRequest asyncRequest = new AsyncRequest();
             asyncRequest.execute(url, request, type, compressed);
         } else if (method == SendMethods.DIFFERED) {
+            // if the network isn't available, add the request to the pending requests stack
+            // and then check for the network availability every 5 seconds
             pendingRequests.add(new Pair<>(request, url));
             if (timer == null) {
                 timer = new Timer();
                 final int MILLISECONDS = 5000; //5 seconds
-                timer.schedule(new NetworkChecker(this.context, this), 0, MILLISECONDS);
+                timer.schedule(new NetworkChecker(this.context, this),
+                        0, MILLISECONDS);
             }
         }
     }
 
+    /**
+     * Sends all the pending requests
+     */
     public void sendPendingRequests() {
         for (Pair<String, String> request : pendingRequests) {
-            sendRequest(request.first, request.second, SendMethods.DIFFERED, "text/plain", null);
+            sendRequest(request.first, request.second, SendMethods.DIFFERED,
+                    "text/plain", null);
         }
         pendingRequests.clear();
     }
 
+    /**
+     * Setter
+     * @param l the {@link CommunicationEventListener}
+     */
     public void setCommunicationEventListener(CommunicationEventListener l) {
         communicationEventListener = l;
     }
 
-    // Class inspired by primpap on https://stackoverflow.com/questions/2938502/sending-post-data-in-android
-    public class AsyncRequest extends AsyncTask<String, String, String> {
+    /**
+     * This nested class is used to send the requests in the background
+     * Class inspired by primpap on https://stackoverflow.com/questions/2938502/sending-post-data-in-android
+     */
+    public class  AsyncRequest extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
 
+        /**
+         * Sends the request in the background thread and receives the response
+         * @param strings parameters needed to send the request:
+         *                strings[0] server's url
+         *                strings[1] data to send
+         *                strings[2] HTTP content type
+         *                strings[3] if this parameter is not null, the request/reply will be
+         *                compressed/decompressed. Otherwise, no compression/decompression will
+         *                be performed.
+         * @return the response received
+         */
         @Override
         protected String doInBackground(String... strings) {
             String urlString = strings[0];
@@ -80,12 +121,12 @@ public class AsyncSendRequest {
 
             try {
                 URL url = new URL(urlString);
-
+                // open the HTTP connection
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("POST");
                 urlConnection.setRequestProperty("Content-Type", contentType);
-                // If request is to be compressed
-                if (strings[3] != null) {
+                // Send the request
+                if (strings[3] != null) { // If request is to be compressed
                     urlConnection.setRequestProperty("X-Network", "CSD");
                     urlConnection.setRequestProperty("X-Content-Encoding", "deflate");
                     OutputStream outputStream = urlConnection.getOutputStream();
@@ -102,7 +143,7 @@ public class AsyncSendRequest {
                     writer.close();
                     out.close();
                 }
-
+                // Receive the response
                 int responseCode = urlConnection.getResponseCode();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
