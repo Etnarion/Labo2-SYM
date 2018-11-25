@@ -2,13 +2,11 @@ package com.example.samuel.lab2;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.util.Pair;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -155,7 +153,6 @@ public class AsyncSendRequest {
                     if (strings[3] != null) {
                         String line;
                         BufferedReader reader = new BufferedReader(new InputStreamReader(new InflaterInputStream(urlConnection.getInputStream(), new Inflater(true))));
-                        Log.i("NB BYTES: ", String.valueOf(Utils.countBytesInInput(urlConnection.getInputStream())));
                         while ((line = reader.readLine()) != null) {
                             response.append(line);
                         }
@@ -170,10 +167,6 @@ public class AsyncSendRequest {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-//            long stopTime = System.currentTimeMillis();
-//            long time = stopTime-startTime;
-//            Log.i("RESULTING TIME: ", String.valueOf(time));
 
             return response.toString();
         }

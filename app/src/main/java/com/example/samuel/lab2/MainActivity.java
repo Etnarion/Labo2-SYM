@@ -166,17 +166,15 @@ public class MainActivity extends AppCompatActivity {
                         endPoint = "rest/json";
                         contentType = "application/json";
                         Gson gson = new Gson();
-//                        Person person = new Person("Denier", "Alain", "Male", new Phone("0241234123", "home"));
-                        Person person = new TestPerson().generate(1000);
+                        Person person = new Person("Denier", "Alain", "Male", new Phone("0241234123", "home"));
                         request = new StringBuilder(gson.toJson(person));
                     } else if (radioXML.isChecked()) { // xml
                         endPoint = "rest/xml";
                         contentType = "application/xml";
-//                        Directory directory = new Directory();
-//                        directory.add(new Person("Niloa", "Louis", "Kain", "Male", new Phone("014112535", "work")));
-//                        directory.add(new Person("Garner", "Leah", "Dane", "Female", new Phone("0412412512", "mobile")));
-//                        directory.add(new Person("Bros", "Luigi", "Mario", "Male", new Phone("0120125135", "home")));
-                        Directory directory = new TestDirectory().generate(1);
+                        Directory directory = new Directory();
+                        directory.add(new Person("Niloa", "Louis", "Kain", "Male", new Phone("014112535", "work")));
+                        directory.add(new Person("Garner", "Leah", "Dane", "Female", new Phone("0412412512", "mobile")));
+                        directory.add(new Person("Bros", "Luigi", "Mario", "Male", new Phone("0120125135", "home")));
                         request = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
                                 "<!DOCTYPE directory SYSTEM \"http://sym.iict.ch/directory.dtd\">");
                         XStream xstream = new XStream(new PureJavaReflectionProvider(
