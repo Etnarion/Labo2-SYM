@@ -2,6 +2,7 @@ package com.example.samuel.lab2;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.util.Pair;
 
 import java.io.BufferedOutputStream;
@@ -119,6 +120,8 @@ public class AsyncSendRequest {
             OutputStream out;
             StringBuilder response = new StringBuilder();
 
+            long startTime = System.currentTimeMillis();
+
             try {
                 URL url = new URL(urlString);
                 // open the HTTP connection
@@ -165,6 +168,10 @@ public class AsyncSendRequest {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            long stopTime = System.currentTimeMillis();
+            long time = stopTime-startTime;
+            Log.i("RESULTING TIME: ", String.valueOf(time));
 
             return response.toString();
         }
