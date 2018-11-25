@@ -13,7 +13,7 @@ public class TestDirectory {
                     firstName = "first_name" + i,
                     midName = "mid_name" + i,
                     gender = "none";
-            Phone phone = new Phone(String.valueOf(i), "type");
+            Phone phone = new Phone(String.valueOf(i), "work");
             directory.add(new Person(name, firstName, midName, gender, phone));
         }
 

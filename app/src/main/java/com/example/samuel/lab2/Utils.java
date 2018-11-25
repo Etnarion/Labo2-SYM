@@ -4,6 +4,11 @@ import android.app.Activity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 /**
  * This class contains some useful static methods
  *
@@ -23,5 +28,22 @@ public class Utils {
             view = new View(activity);
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public static int countBytesInInput(InputStream in) throws IOException {
+        byte[] buff = new byte[8000];
+
+        int bytesRead = 0;
+
+        ByteArrayOutputStream bao = new ByteArrayOutputStream();
+
+        while((bytesRead = in.read(buff)) != -1) {
+            bao.write(buff, 0, bytesRead);
+        }
+
+        byte[] data = bao.toByteArray();
+
+        ByteArrayInputStream bin = new ByteArrayInputStream(data);
+        return bin.available();
     }
 }

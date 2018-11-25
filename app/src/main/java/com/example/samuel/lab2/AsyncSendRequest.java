@@ -8,6 +8,7 @@ import android.util.Pair;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -120,7 +121,7 @@ public class AsyncSendRequest {
             OutputStream out;
             StringBuilder response = new StringBuilder();
 
-            long startTime = System.currentTimeMillis();
+//            long startTime = System.currentTimeMillis();
 
             try {
                 URL url = new URL(urlString);
@@ -154,6 +155,7 @@ public class AsyncSendRequest {
                     if (strings[3] != null) {
                         String line;
                         BufferedReader reader = new BufferedReader(new InputStreamReader(new InflaterInputStream(urlConnection.getInputStream(), new Inflater(true))));
+                        Log.i("NB BYTES: ", String.valueOf(Utils.countBytesInInput(urlConnection.getInputStream())));
                         while ((line = reader.readLine()) != null) {
                             response.append(line);
                         }
@@ -169,9 +171,9 @@ public class AsyncSendRequest {
                 e.printStackTrace();
             }
 
-            long stopTime = System.currentTimeMillis();
-            long time = stopTime-startTime;
-            Log.i("RESULTING TIME: ", String.valueOf(time));
+//            long stopTime = System.currentTimeMillis();
+//            long time = stopTime-startTime;
+//            Log.i("RESULTING TIME: ", String.valueOf(time));
 
             return response.toString();
         }

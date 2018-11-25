@@ -15,13 +15,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7960db25-911d-4004-b308-de517fdeb005" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/TestDirectory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/TestPerson.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/AsyncSendRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/AsyncSendRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/TestDirectory.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/TestDirectory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/Utils.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -53,23 +51,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NetworkChecker.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/NetworkChecker.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="410">
-              <caret line="29" column="7" selection-start-line="29" selection-start-column="7" selection-end-line="29" selection-end-column="7" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="316">
-              <caret line="178" column="76" selection-start-line="178" selection-start-column="76" selection-end-line="178" selection-end-column="76" />
+            <state relative-caret-position="463">
+              <caret line="178" column="78" selection-start-line="178" selection-start-column="78" selection-end-line="178" selection-end-column="78" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -95,11 +81,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TestDirectory.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TestDirectory.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/TestDirectory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+            <state relative-caret-position="225">
+              <caret line="15" column="60" selection-start-line="15" selection-start-column="60" selection-end-line="15" selection-end-column="60" />
               <folding>
                 <element signature="e#195#196#0" expanded="true" />
                 <element signature="e#238#239#0" expanded="true" />
@@ -108,11 +94,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AsyncSendRequest.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="AsyncSendRequest.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/AsyncSendRequest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="173" column="33" selection-start-line="173" selection-start-column="33" selection-end-line="173" selection-end-column="33" />
+            <state relative-caret-position="287">
+              <caret line="157" column="117" lean-forward="true" selection-start-line="157" selection-start-column="117" selection-end-line="157" selection-end-column="117" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -125,6 +111,18 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="236">
               <caret line="16" column="56" selection-start-line="16" selection-start-column="56" selection-end-line="16" selection-end-column="56" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Utils.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/Utils.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="311">
+              <caret line="46" column="30" selection-start-line="46" selection-start-column="30" selection-end-line="46" selection-end-column="30" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -2443,7 +2441,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/Phone.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/SendMethods.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/SequenceFieldKeySorter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/Utils.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/XMLSequence.java" />
         <option value="$PROJECT_DIR$/app/src/test/java/com/example/samuel/lab2/ExampleUnitTest.java" />
         <option value="$PROJECT_DIR$/app/src/androidTest/java/com/example/samuel/lab2/ExampleInstrumentedTest.java" />
@@ -2451,10 +2448,11 @@
         <option value="$PROJECT_DIR$/app/src/test/java/compressionperformance/GenerateTestDirectory.java" />
         <option value="$PROJECT_DIR$/app/src/test/java/compressionperformance/TestDirectory.java" />
         <option value="$PROJECT_DIR$/app/src/test/java/compressionperformance/TestPerson.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/AsyncSendRequest.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/TestDirectory.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/TestPerson.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/TestDirectory.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/Utils.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/AsyncSendRequest.java" />
       </list>
     </option>
   </component>
@@ -2982,16 +2980,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/Utils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="9" column="56" selection-start-line="9" selection-start-column="56" selection-end-line="9" selection-end-column="56" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/SequenceFieldKeySorter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -3087,30 +3075,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/AsyncSendRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="173" column="33" selection-start-line="173" selection-start-column="33" selection-end-line="173" selection-end-column="33" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/TestPerson.java">
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="32" selection-start-column="32" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="316">
-          <caret line="178" column="76" selection-start-line="178" selection-start-column="76" selection-end-line="178" selection-end-column="76" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3123,11 +3091,41 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/TestDirectory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        <state relative-caret-position="225">
+          <caret line="15" column="60" selection-start-line="15" selection-start-column="60" selection-end-line="15" selection-end-column="60" />
           <folding>
             <element signature="e#195#196#0" expanded="true" />
             <element signature="e#238#239#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="463">
+          <caret line="178" column="78" selection-start-line="178" selection-start-column="78" selection-end-line="178" selection-end-column="78" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="311">
+          <caret line="46" column="30" selection-start-line="46" selection-start-column="30" selection-end-line="46" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/samuel/lab2/AsyncSendRequest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="287">
+          <caret line="157" column="117" lean-forward="true" selection-start-line="157" selection-start-column="117" selection-end-line="157" selection-end-column="117" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
